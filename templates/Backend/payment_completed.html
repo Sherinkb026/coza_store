@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/invoice.css' %}">
+
+</head>
+<body>
+
+    <div style="border:1px solid grey;">
+    <header class="clearfix">
+        <div id="logo">
+            <img src="{% static 'assets/images/icons/logo-01.png'%}" style="margin-top:50px;width:130px;height:30px;" alt="CozaStore">
+        </div>
+        <h1 style="margin-top:50px;">INVOICE 3-2-1</h1>
+        <div id="project" style="margin-top:20px;">
+            <div><span>INVOICE TO:</span>{{request.user|title}}</div>
+        </div>
+    </header>
+    <main>
+        <table style="margin-top:30px;">
+            <thead>
+                <tr>
+                    <th class="service">TITLE</th>
+                    <th style="text-align:center;">PRICE</th>
+                    <th style="text-align:center;">QTY</th>
+                    <th style="text-align:center;">AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, item in cart_data.items %}
+                <tr>
+                    <td class="service">{{item.title}}</td>
+                    <td class="unit" style="text-align:center;">₹{{item.price}}</td>
+                    <td class="qty" style="text-align:center;">{{item.qty}}</td>
+                    <td style="text-align:center;">₹{% widthratio item.price 1 item.qty %}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4">SUBTOTAL</td>
+                    <td class="total">{{cart_total_amount}}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="grand total"><b>GRAND TOTAL</b></td>
+                    <td class="grand total"><b>₹{{cart_total_amount}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        Hey {{request.user|title}}, Thank you for Shopping with us
+    </footer>
+</div>
+
+<div style="margin-top:30px;">
+    <button class="btn1 ">
+        <a href="{% url 'Backend:payment-completed' %}?download_pdf=1" style="text-decoration:None;color:white">DOWNLOAD</a>
+    </button>
+    <button class="btn1" ><a href="" style="color:white;text-decoration:None;">PRINT</a></button>
+</div>
+
+
+
+</body>
+</html>
+
+
+
